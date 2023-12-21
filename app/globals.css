@@ -1,50 +1,27 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-main {
-  @apply max-w-screen-xl mx-auto flex flex-col;
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
-header,
-section {
-  @apply px-5 md:px-10;
-}
-
-a {
-  @apply hover:text-primary dark:hover:text-gray-200 transition-colors;
-}
-
-@layer utilities {
-  .scrollbar::-webkit-scrollbar {
-    @apply w-2 h-2;
-  }
-
-  .scrollbar::-webkit-scrollbar-track {
-    /* border-radius: 5px; */
-    /* background: #fff; */
-    @apply bg-white dark:bg-black;
-  }
-
-  .scrollbar::-webkit-scrollbar-thumb {
-    /* background: #000; */
-    /* border-radius: 100vh; */
-    /* border: 3px solid #fff; */
-    @apply bg-gray-200 dark:bg-gray-600 border border-white rounded-sm;
-  }
-
-  .scrollbar::-webkit-scrollbar-thumb:hover {
-    /* background: #000; */
-    @apply bg-gray-500;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
-.custom-prose {
-  max-height: 60vh; /* Adjust this value based on the desired maximum height */
-  overflow-y: auto; /* Enable vertical scroll if the content exceeds the maximum height */
-  padding-right: 1rem; /* Optional: Add some padding if the scrollbar appears, so the text is not squished */
-}
-
-nextjs-portal {
-  display: none;
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
 }

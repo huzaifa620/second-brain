@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @default(now()) @map("updated_at")
+  email        String   @unique
+  name         String?
+  hashpassword String   @map("password")
+  Brain        Brain[]
+  Topic        Topic[]
+  Chat         Chat[]
+
+  @@map("users")
+}
+
+model Brain {
+  id          String @id @default(uuid())
+  userId      String @map("user_id")
+  user        User   @relation(fields: [userId], references: [id])
+  name        String
+  description String
+  openaikey   String @map("openaikey")
+  model       String
+  temperature Float  @map("temperature")
+  maxtokens   Int    @map("maxTokens")
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id])
+  Message   Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  text      String   @map("text")
+  type      String   @map("type")
+  createdAt DateTime @default(now())
+  chatId    String
+  chat      Chat     @relation(fields: [chatId], references: [id])
+}
+
+model Topic {
+  id     String @id @default(uuid())
+  name   String
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
+}
